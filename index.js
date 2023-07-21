@@ -1,7 +1,8 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
-const {renderLicenseBadge} = require('./generateMarkdown');
+const markdown = require('./generateMarkdown');
+const generateMarkdown = require('./generateMarkdown');
 
 
 // TODO: Create an array of questions for user input
@@ -48,6 +49,13 @@ const questions = [
     default: 'No specific guidelines at the moment.'
 },
 {
+type: 'input',
+name: 'tests',
+message:'Enter test details',
+default: 'No specific tests at the moment.',
+
+},
+{
     type: 'list',
     name: 'license',
     message: 'Choose a license for your project:',
@@ -91,42 +99,10 @@ function writeToFile(fileName, data) {
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions).then(answers => {
-        const licenseBadge = renderLicenseBadge(answers.license)
-        const readmeTemplate = `
-    # ${answers.title}
-    
-    ## Description
-    ${answers.description}
-    
-    ## Table of Contents
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Contributing](#contributing)
-    - [Tests](#tests)
-    - [License](#license)
-    - [Questions](#questions)
-    
-    ## Installation
-    ${answers.installation}
-    
-    ## Usage
-    ${answers.usage}
-    
-    ## Contributing
-    ${answers.contributing} 
-    
-    ## Tests
-    ${answers.tests} 
-    
-    ## License
-    This project is licensed under the ${licenseBadge} License.
-    
-    ## Questions
-    For any questions or feedback, please feel free to contact me:
-    - GitHub: [${answers.username}](https://github.com/${answers.username})
-    - Email: ${answers.email}
-    `;
-        writeToFile('README.md', readmeTemplate);
+       
+        const markdoownContent = generateMarkdown(answers)
+   
+        writeToFile('README.md', markdoownContent);
       });
 }
 
