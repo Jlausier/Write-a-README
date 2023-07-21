@@ -1,36 +1,51 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
-const generateMarkdown = require('./generateMarkdown');
+const {renderLicenseBadge} = require('./generateMarkdown');
 
-const license = require('./generateMarkdown')
+
 // TODO: Create an array of questions for user input
 const questions = [
 {
     type: 'input', 
     name: 'title',
     message: 'Enter the title of your project:',
+    validate: function (input) {
+        if (input.trim() === '') {
+            return 'This field is required.';
+        }
+        return true;
+    }
 },
 {
     type: 'input',
     name: 'description',
-    message: 'Enter a description of your project:'
+    message: 'Enter a description of your project:',
+    validate: function (input) {
+        if (input.trim() === '') {
+            return 'This field is required.';
+        }
+        return true;
+    }
 
 },
 {
     type: 'input',
     name: 'installation',
-    message: 'Enter installation instructions:'
+    message: 'Enter installation instructions:',
+    default: 'No specific installation at the moment.'
 },
 {
     type: 'input',
     name: 'usage',
-    message: 'Enter usage information:'
+    message: 'Enter usage information:',
+    default: 'No specific usage at the moment.'
 },
 {
     type: 'input',
     name: 'Contributing',
-    message: 'Enter contribution guidelines:'
+    message: 'Enter contribution guidelines:',
+    default: 'No specific guidelines at the moment.'
 },
 {
     type: 'list',
@@ -41,12 +56,24 @@ const questions = [
 {
     type: 'input',
     name: 'username',
-    message: 'Enter your GitHub username:'
+    message: 'Enter your GitHub username:',
+    validate: function (input) {
+        if (input.trim() === '') {
+            return 'This field is required.';
+        }
+        return true;
+    }
 },
 {
     type: 'input',
     name: 'email',
-    message: 'Enter your email address:'
+    message: 'Enter your email address:',
+    validate: function (input) {
+        if (input.trim() === '') {
+            return 'This field is required.';
+        }
+        return true;
+    }
 
 }];
 
@@ -64,6 +91,7 @@ function writeToFile(fileName, data) {
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions).then(answers => {
+        const licenseBadge = renderLicenseBadge(answers.license)
         const readmeTemplate = `
     # ${answers.title}
     
@@ -85,13 +113,13 @@ function init() {
     ${answers.usage}
     
     ## Contributing
-    ${answers.contributing}
+    ${answers.contributing} 
     
     ## Tests
-    ${answers.tests}
+    ${answers.tests} 
     
     ## License
-    This project is licensed under the ${answers.license} License.
+    This project is licensed under the ${licenseBadge} License.
     
     ## Questions
     For any questions or feedback, please feel free to contact me:
