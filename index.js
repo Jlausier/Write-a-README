@@ -44,9 +44,9 @@ const questions = [
 },
 {
     type: 'input',
-    name: 'Contributing',
+    name: 'contributing',
     message: 'Enter contribution guidelines:',
-    default: 'No specific guidelines at the moment.'
+    default: 'No specific contribution guidlines at the moment.'
 },
 {
 type: 'input',
