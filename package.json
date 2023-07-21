@@ -1,0 +1,14 @@
+{
+  "name": "write-a-readme",
+  "version": "1.0.0",
+  "description": "This is a node js application to create a readme file ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jacob lausier",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "8.2.4"
+  }
+}
